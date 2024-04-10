@@ -414,7 +414,7 @@ def train(config):
         new_time = datetime.datetime.now()
 
         record_scalar_metrics(train_metric, new_time - last_step_completion, per_device_tflops, learning_rate_scheduler(step))
-        write_metrics(writer, local_metrics_file, running_gcs_metrics, train_metric, step, config)
+        #write_metrics(writer, local_metrics_file, running_gcs_metrics, train_metric, step, config)
         last_step_completion = new_time
         if step != 0 and (total_train_batch_size * step) % config.checkpoint_every == 0:
            max_utils.save_checkpoint(pipeline, params, unet_state, noise_scheduler, config, config.checkpoint_dir+f"/{str(step * total_train_batch_size)}/")
