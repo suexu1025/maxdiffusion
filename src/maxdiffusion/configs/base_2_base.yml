@@ -147,12 +147,12 @@ profiler_steps: 5
 # Generation parameters
 prompts: "prompts.txt"
 image_ids: "ids.txt"
-images_directory: "maxdiffusion/generated_images/"
-stat_output_directory: "maxdiffusion/output/"
-stat_output_file: "maxdiffusion/output/stats.npz"
+images_directory: "generated_images/"
+stat_output_directory: "output/"
+stat_output_file: "output/stats.npz"
 stat_coco_file: "/app/datasets/coco2014/val2014_30k_stats.npz"
 caption_coco_file: "/app/datasets/coco2014/val2014_30k.tsv"
-clip_cache_dir: "maxdiffusion/clip_cache_dir"
+clip_cache_dir: "clip_cache_dir"
 negative_prompt: ""
 # https://github.com/mlcommons/training/blob/master/stable_diffusion/configs/train_01x08x08.yaml#L26
 guidance_scale: 8
