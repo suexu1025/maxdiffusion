@@ -145,14 +145,14 @@ skip_first_n_steps_for_profiler: 1
 profiler_steps: 5
 
 # Generation parameters
-prompts: "/home/shahrokhi/prompts.txt"
-image_ids: "/home/shahrokhi/ids.txt"
-images_directory: "/home/shahrokhi/maxdiffusion/generated_images/"
-stat_output_directory: "/home/shahrokhi/maxdiffusion/output/"
-stat_output_file: "/home/shahrokhi/maxdiffusion/output/stats.npz"
-stat_coco_file: "/home/shahrokhi/coco2014/val2014_30k_stats.npz"
-caption_coco_file: "/home/shahrokhi/coco2014/val2014_30k.tsv"
-clip_cache_dir: "/home/shahrokhi/maxdiffusion/clip_cache_dir"
+prompts: "prompts.txt"
+image_ids: "ids.txt"
+images_directory: "generated_images/"
+stat_output_directory: "maxdiffusion/output/"
+stat_output_file: "output/stats.npz"
+stat_coco_file: "datasets/coco2014/val2014_30k_stats.npz"
+caption_coco_file: "datasets/coco2014/val2014_30k.tsv"
+clip_cache_dir: "clip_cache_dir"
 negative_prompt: ""
 # https://github.com/mlcommons/training/blob/master/stable_diffusion/configs/train_01x08x08.yaml#L26
 guidance_scale: 8
