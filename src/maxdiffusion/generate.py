@@ -156,7 +156,7 @@ def run(config):
     params["scheduler"] = scheduler_state
 
     # Text encoder params
-    sharding = PositionalSharding(mesh.devices).reshape(16,1)
+    sharding = PositionalSharding(mesh.devices).replicate()
     print("QW debug ", sharding)
     partial_device_put_replicated = functools.partial(device_put_replicated, sharding=sharding)
     params["text_encoder"] = jax.tree_util.tree_map(partial_device_put_replicated, params["text_encoder"])
@@ -210,9 +210,11 @@ def run(config):
             prompt_ids = tokenize(prompts, pipeline.tokenizer)
             print(prompts.shape)
             s = time.time()
+            activate_profiler(config)
             images = p_run_inference(unet_state, vae_state, params, prompt_ids, negative_prompt_ids)
             images = jax.experimental.multihost_utils.process_allgather(images)
             numpy_images = np.array(images)
+            deactivate_profiler(config)
             print("inference time: ",(time.time() - s))
             
             save_process(numpy_images, config, img_ids)
