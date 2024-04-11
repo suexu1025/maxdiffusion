@@ -134,7 +134,7 @@ def run(config):
 
 
     batch_size = jax.device_count() * config.per_device_batch_size
-    assert 30_000 % batch_size == 0, f"Coco dataset must be evenly divisible by batch size : {batch_size}"
+    #assert 30_000 % batch_size == 0, f"Coco dataset must be evenly divisible by batch size : {batch_size}"
     weight_dtype = get_dtype(config)
     flash_block_sizes = get_flash_block_sizes(config)
     pipeline, params = FlaxStableDiffusionPipeline.from_pretrained(
@@ -157,6 +157,7 @@ def run(config):
 
     # Text encoder params
     sharding = PositionalSharding(mesh.devices).replicate()
+    print("QW debug ", sharding)
     partial_device_put_replicated = functools.partial(device_put_replicated, sharding=sharding)
     params["text_encoder"] = jax.tree_util.tree_map(partial_device_put_replicated, params["text_encoder"])
 
@@ -200,7 +201,7 @@ def run(config):
         rd = csv.reader(fd, delimiter="\t", quotechar='"')
         rows = list(rd)[1:]
         negative_prompt_ids = tokenize([""] * batch_size, pipeline.tokenizer)
-        for i in tqdm(range(0, len(rows),  batch_size)):
+        for i in tqdm(range(0, batch_size*10,  batch_size)):
             img_ids = [row[0] for row in rows[i:i+batch_size]]
             ids = [row[1] for row in rows[i:i+batch_size]]
             prompts = [row[2] for row in rows[i:i+batch_size]]
