@@ -213,18 +213,18 @@ def run(config):
             numpy_images = np.array(images)
             
             
-            p = Process(target=save_process, args=(numpy_images, config, img_ids))
-            p.start()
-            threads.append(p)
-            k+=1
-            if k >= clear_threads_count_at:
-                for thread in threads:
-                    thread.join()
-                    threads = []
-                    k = 0
+            save_process(numpy_images, config, img_ids)
+            # p.start()
+            # threads.append(p)
+            # k+=1
+            # if k >= clear_threads_count_at:
+            #     for thread in threads:
+            #         thread.join()
+            #         threads = []
+            #         k = 0
 
-        for thread in threads:
-            thread.join()
+        # for thread in threads:
+        #     thread.join()
 def main(argv: Sequence[str]) -> None:
     pyconfig.initialize(argv)
     run(pyconfig.config)
