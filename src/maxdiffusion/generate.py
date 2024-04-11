@@ -208,7 +208,7 @@ def run(config):
             prompts = [row[2] for row in rows[i:i+batch_size]]
             print(prompts)
             prompt_ids = tokenize(prompts, pipeline.tokenizer)
-            print(prompts.shape)
+            print(prompt_ids.shape)
             s = time.time()
             activate_profiler(config)
             images = p_run_inference(unet_state, vae_state, params, prompt_ids, negative_prompt_ids)
