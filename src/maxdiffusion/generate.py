@@ -202,7 +202,7 @@ def run(config):
         rows = list(rd)[1:]
         negative_prompt_ids = tokenize([""] * batch_size, pipeline.tokenizer)
         print("QW debug", batch_size)
-        for i in tqdm(range(0, batch_size*10,  batch_size)):
+        for i in range(0, batch_size*10,  batch_size):
             img_ids = [row[0] for row in rows[i:i+batch_size]]
             ids = [row[1] for row in rows[i:i+batch_size]]
             prompts = [row[2] for row in rows[i:i+batch_size]]
