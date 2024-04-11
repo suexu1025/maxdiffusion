@@ -156,7 +156,7 @@ def run(config):
     params["scheduler"] = scheduler_state
 
     # Text encoder params
-    sharding = PositionalSharding(mesh.devices).replicate()
+    sharding = PositionalSharding(mesh.devices).reshape(16,1)
     print("QW debug ", sharding)
     partial_device_put_replicated = functools.partial(device_put_replicated, sharding=sharding)
     params["text_encoder"] = jax.tree_util.tree_map(partial_device_put_replicated, params["text_encoder"])
