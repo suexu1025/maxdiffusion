@@ -206,7 +206,9 @@ def run(config):
             img_ids = [row[0] for row in rows[i:i+batch_size]]
             ids = [row[1] for row in rows[i:i+batch_size]]
             prompts = [row[2] for row in rows[i:i+batch_size]]
+            print(prompts)
             prompt_ids = tokenize(prompts, pipeline.tokenizer)
+            print(prompts.shape)
             s = time.time()
             images = p_run_inference(unet_state, vae_state, params, prompt_ids, negative_prompt_ids)
             images = jax.experimental.multihost_utils.process_allgather(images)
