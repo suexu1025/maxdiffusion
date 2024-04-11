@@ -28,6 +28,8 @@ from maxdiffusion.max_utils import (
   create_device_mesh,
   get_dtype,
   get_states,
+  activate_profiler,
+  deactivate_profiler,
   device_put_replicated,
   get_flash_block_sizes
 )
