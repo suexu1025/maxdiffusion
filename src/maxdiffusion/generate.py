@@ -207,11 +207,11 @@ def run(config):
             ids = [row[1] for row in rows[i:i+batch_size]]
             prompts = [row[2] for row in rows[i:i+batch_size]]
             prompt_ids = tokenize(prompts, pipeline.tokenizer)
-    
+            s = time.time()
             images = p_run_inference(unet_state, vae_state, params, prompt_ids, negative_prompt_ids)
             images = jax.experimental.multihost_utils.process_allgather(images)
             numpy_images = np.array(images)
-            
+            print("inference time: ",(time.time() - s))
             
             save_process(numpy_images, config, img_ids)
             # p.start()
