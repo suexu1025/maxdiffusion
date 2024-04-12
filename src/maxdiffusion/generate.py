@@ -203,20 +203,25 @@ def run(config):
         rd = csv.reader(fd, delimiter="\t", quotechar='"')
         rows = list(rd)[1:]
         negative_prompt_ids = tokenize([""] * batch_size, pipeline.tokenizer)
-        print("QW debug", batch_size)
-        for i in range(0, batch_size*10,  batch_size):
-            img_ids = [row[0] for row in rows[i:i+batch_size]]
-            ids = [row[1] for row in rows[i:i+batch_size]]
-            prompts = [row[2] for row in rows[i:i+batch_size]]
+        for i in tqdm(range(0, len(rows), batch_size)):
+            end =  min(len(rows), i+batch_size)
+            padded_rows = rows[i:i+batch_size]
+            padded_rows.extend([rows[-1]] * (i + batch - end))
+
+            img_ids = [row[0] for row in padded_rows[i:i+end]]
+            ids = [row[1] for row in padded_rows[i:end]]
+            prompts = [row[2] for row in padded_rows[i:i+batch_size]]
             print(prompts)
             prompt_ids = tokenize(prompts, pipeline.tokenizer)
             print(prompt_ids.shape)
             s = time.time()
-            activate_profiler(config)
+            #activate_profiler(config)
             images = p_run_inference(unet_state, vae_state, params, prompt_ids, negative_prompt_ids)
             images = jax.experimental.multihost_utils.process_allgather(images)
+            images = images[:end - i]
+
             numpy_images = np.array(images)
-            deactivate_profiler(config)
+            #deactivate_profiler(config)
             print("inference time: ",(time.time() - s))
             
             save_process(numpy_images, config, img_ids)
