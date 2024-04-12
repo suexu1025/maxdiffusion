@@ -203,7 +203,7 @@ def run(config):
         rd = csv.reader(fd, delimiter="\t", quotechar='"')
         rows = list(rd)[1:]
         negative_prompt_ids = tokenize([""] * batch_size, pipeline.tokenizer)
-        for i in tqdm(range(0, len(rows), batch_size)):
+        for i in range(0, len(rows), batch_size):
             end =  min(len(rows), i+batch_size)
             padded_rows = rows
             if i + batch_size > end:
