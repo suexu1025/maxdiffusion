@@ -205,8 +205,9 @@ def run(config):
         negative_prompt_ids = tokenize([""] * batch_size, pipeline.tokenizer)
         for i in tqdm(range(0, len(rows), batch_size)):
             end =  min(len(rows), i+batch_size)
-            padded_rows = rows[i:i+batch_size]
-            padded_rows.extend([rows[-1]] * (i + batch_size - end))
+            padded_rows = rows
+            if i + batch_size > end:
+                padded_rows.extend([rows[-1]] * (i + batch_size - end))
 
             img_ids = [row[0] for row in padded_rows[i:i+end]]
             ids = [row[1] for row in padded_rows[i:end]]
