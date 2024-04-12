@@ -206,12 +206,11 @@ def run(config):
         for i in tqdm(range(0, len(rows), batch_size)):
             end =  min(len(rows), i+batch_size)
             padded_rows = rows[i:i+batch_size]
-            padded_rows.extend([rows[-1]] * (i + batch - end))
+            padded_rows.extend([rows[-1]] * (i + batch_size - end))
 
             img_ids = [row[0] for row in padded_rows[i:i+end]]
             ids = [row[1] for row in padded_rows[i:end]]
             prompts = [row[2] for row in padded_rows[i:i+batch_size]]
-            print(prompts)
             prompt_ids = tokenize(prompts, pipeline.tokenizer)
             print(prompt_ids.shape)
             s = time.time()
