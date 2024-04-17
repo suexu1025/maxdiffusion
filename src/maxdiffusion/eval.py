@@ -87,6 +87,7 @@ def eval(config):
     # calculate_clip(images, prompts, config)
 
     # calculating FID:
+    print("eval", config.pretrained_model_name_or_path)
     rng = jax.random.PRNGKey(0)
     
     model = inception.InceptionV3(pretrained=True, transform_input=True)
